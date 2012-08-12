@@ -1,12 +1,15 @@
+require "rgl/adjacency"
+
 module Hivegame
   class Hive
     include Enumerable
 
-    attr_accessor :head
-
     def initialize
-      @bugs = []
-      @head = nil
+      @bugs = RGL::AdjacencyGraph.new
+    end
+
+    def add_vertex v
+      @bugs.add_vertex v
     end
 
     def each

@@ -4,13 +4,11 @@ describe Hivegame::Hive do
   context "when initialized" do
     it("is empty") { should be_empty }
     it("has zero bugs") { subject.count.should == 0 }
-    it("has a nil head") { subject.head.should be_nil }
   end
-  describe "#head=" do
-    it "should change the head of the bug graph" do
-      bug = double "Bug"
-      expect { subject.head = bug }.to \
-        change { subject.head }.to(bug)
+  describe "#add_vertex" do
+    it "should no longer be empty" do
+      subject.add_vertex double "Bug"
+      should_not be_empty
     end
   end
 end
