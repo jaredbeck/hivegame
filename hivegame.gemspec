@@ -16,5 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = Hivegame::VERSION
 
   gem.add_runtime_dependency "rgl"
+  gem.add_runtime_dependency "activesupport"
   gem.add_development_dependency "rspec"
 end

@@ -1,15 +1,14 @@
+require "active_support/core_ext/module/delegation"
 require "rgl/adjacency"
 
 module Hivegame
   class Hive
     include Enumerable
 
+    delegate :add_vertex, :to => :@bugs
+
     def initialize
       @bugs = RGL::AdjacencyGraph.new
-    end
-
-    def add_vertex v
-      @bugs.add_vertex v
     end
 
     def each
