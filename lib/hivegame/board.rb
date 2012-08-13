@@ -1,14 +1,9 @@
+module Hivegame
 
-
-module Hivegame 
-
- class Hex
-   def obstructed?
-     false
-   end
+  class Hex
   end
-    
- class Board
+
+  class Board
    def initialize(rows=9, cols=9)
      @rows, @cols = rows, cols
      @board = Array.new(@rows) do |row|
@@ -18,11 +13,7 @@ module Hivegame
      end
    end
 
-   def distance(position1, position2)
-     # Distance between two hexes on the board
-   end
-
-   # This will print the board out to the console 
+   # This will print the board out to the console
    def draw
      @rows.times do |row|
        line = ''
@@ -46,5 +37,6 @@ module Hivegame
    def [](row)
      @board[row]
    end
- end 
+ end
 end
+
