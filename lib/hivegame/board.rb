@@ -3,10 +3,8 @@
 module Hivegame 
 
  class Hex
-   def obstructed?
-     false
-   end
-  end
+   
+ end
     
  class Board
    def initialize(rows=9, cols=9)
@@ -16,10 +14,6 @@ module Hivegame
          Hex.new
        end
      end
-   end
-
-   def distance(position1, position2)
-     # Distance between two hexes on the board
    end
 
    # This will print the board out to the console 
@@ -40,8 +34,13 @@ module Hivegame
 
    def empty?
      true
-   end
+   end 
 
+   def neighbors(row, col)
+     [[-1,-1],[-1,0],[0,-1],[0,1],[1,0],[1,1]].map do |r, c|
+       [row+r, col+c]
+     end
+   end
 
    def [](row)
      @board[row]
