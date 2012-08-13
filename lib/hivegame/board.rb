@@ -5,6 +5,10 @@ module Hivegame
     def initialize()
       @bug = nil
     end
+
+    def occupied?
+      return !@bug.nil?
+    end
   end
 
  class Board
@@ -18,10 +22,12 @@ module Hivegame
    end
 
    def add(r,c,h, bug)
-     if @board[r][c]
-       return false
-     
+     return false unless (0..@rows).include? r
+     return false unless (0..@cols).include? c
+     return false if @board[r][c].occupied?
+
      @board[r][c].bug = bug
+     return true 
    end
 
 
@@ -53,5 +59,4 @@ module Hivegame
      @board[row]
    end
  end
-end
-
+end 
