@@ -15,18 +15,18 @@ describe Hivegame::Board do
 
   describe "#add" do
     it "adds a piece to the given position" do
-      subject.add(5,5,1, double("Bug")).should be_true
+      subject.add([5,5,1], double("Bug")).should be_true
     end
     it "can add a piece very far away from other pieces" do
-      subject.add(100, 100, 1, double("Bug")).should be_true
-      subject.add(-100, -100, 1, double("Bug")).should be_true
+      subject.add([100, 100, 1], double("Bug")).should be_true
+      subject.add([-100, -100, 1], double("Bug")).should be_true
     end
     it "fails if the position is occupied" do
-      subject.add(5,5,1, double("Bug")).should be_true
-      subject.add(5,5,1, double("Bug")).should be_false
+      subject.add([5,5,1], double("Bug")).should be_true
+      subject.add([5,5,1], double("Bug")).should be_false
     end
     it "fails to add to a z-level with no bug underneath" do
-      subject.add(5,5,2, double("Bug")).should be_false
+      subject.add([5,5,2], double("Bug")).should be_false
     end
     it "can add to a z-level if a bug is underneath and the bug is a beetle"
     it "increases the count"

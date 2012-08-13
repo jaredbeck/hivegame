@@ -18,7 +18,9 @@ module Hivegame
       @board = {[0,0,0] => Hex.new}
     end
 
-    def add(r,c,h, bug)
+    def add(point, bug)
+      return ArgumentError unless point.is_a? Array
+      r,c,h = point[0], point[1], point[2]
       if h > 1
         hex_below = hex([r,c,h-1])
         return false unless hex_below.occupied?
