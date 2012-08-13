@@ -4,7 +4,7 @@ module Hivegame
   end
 
   class Board
-   def initialize(rows=9, cols=9)
+   def initialize(rows=20, cols=20)
      @rows, @cols = rows, cols
      @board = Array.new(@rows) do |row|
        Array.new(@cols) do |col|
