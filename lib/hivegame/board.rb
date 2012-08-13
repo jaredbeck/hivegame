@@ -13,6 +13,14 @@ module Hivegame
      end
    end
 
+   def add(r,c,h, bug)
+     if @board[r][c]
+       return false
+     
+     @board[r][c].bug = bug
+   end
+
+
    # This will print the board out to the console
    def draw
      @rows.times do |row|
