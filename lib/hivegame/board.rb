@@ -1,9 +1,13 @@
 module Hivegame
 
- class Hex
- end
-    
- class Board 
+  class Hex
+    attr_accessor :bug
+    def initialize()
+      @bug = nil
+    end
+  end
+
+ class Board
    def initialize(rows=20, cols=20)
      @rows, @cols = rows, cols
      @board = Array.new(@rows) do |row|
@@ -29,7 +33,7 @@ module Hivegame
 
    def empty?
      true
-   end 
+   end
 
    def neighbors(row, col)
      [[-1,-1],[-1,0],[0,-1],[0,1],[1,0],[1,1]].map do |r, c|
