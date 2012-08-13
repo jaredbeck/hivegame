@@ -24,7 +24,8 @@ module Hivegame
    def add(r,c,h, bug)
      return false unless (0..@rows).include? r
      return false unless (0..@cols).include? c
-     return false if @board[r][c].occupied?
+     return false if h > 1 && @board[r][c].occupied? == false
+     return false if @board[r][c].occupied? 
 
      @board[r][c].bug = bug
      return true 
@@ -38,7 +39,8 @@ module Hivegame
        (@cols - row).times {line << ' '}
 
        @cols.times do |col|
-         line << '. '
+         line << (@board[row][col].bug || '.').to_s
+         line << ' '
        end
 
        puts line
