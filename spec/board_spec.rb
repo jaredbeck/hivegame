@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe Hivegame::Board do
+  let(:origin) { [0,0,0] }
 
   context "when initialized" do
     it("is empty") { should be_empty }
@@ -9,7 +10,6 @@ describe Hivegame::Board do
 
   describe "#add" do
     let(:bug) { double("Bug") }
-    let(:origin) { [0,0,0] }
     it "adds a piece to the given position" do
       subject.add(origin, bug).should be_true
     end
@@ -26,6 +26,28 @@ describe Hivegame::Board do
     end
     it "increases the count" do
       expect { subject.add(origin, bug) }.to change { subject.count }.by(+1)
+    end
+  end
+
+  describe "#to_ascii" do
+    context "empty board" do
+      it "should output only spaces and dots" do
+        board = remove_line_nums(subject.to_ascii)
+        distincts = Set.new(board.split('')).to_a
+        distincts.should =~ " .".split('')
+      end
+    end
+
+    it "shows bugs instead of a dot" do
+      bug = 'X'
+      subject.add([42,42,0], bug)
+      board = remove_line_nums(subject.to_ascii)
+      distincts = Set.new(board.split('')).to_a
+      distincts.should =~ "X .\n".split('')
+    end
+
+    def remove_line_nums ascii_board
+      ascii_board.split("\n").map{|n| n.sub(/^\d{3}\:/, '')}.join("\n")
     end
   end
 

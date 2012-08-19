@@ -37,20 +37,24 @@ module Hivegame
       return true
     end
 
-   # `draw` writes the board to stdout
-   def draw
-     @rows.times do |row|
-       line = "%03d:" % row
-       (@cols - row).times {line << ' '}
+    # `to_ascii` returns a textual representation (aka. ascii art)
+    def to_ascii
+      lines = []
+      cols = col_count
+      min_row.upto(max_row) do |row|
+        line = "%03d:" % row # left-padded row number
+        (cols - row).times {line << ' '}
 
-       @cols.times do |col|
-         line << (@board[row][col].bug || '.').to_s
-         line << ' '
-       end
+        min_col.upto(max_col) do |col|
+          line << (hex([row,col,0]).bug || '.').to_s
+          line << ' '
+        end
 
-       puts line
-     end
-   end
+        lines << line
+      end
+
+      lines.join "\n"
+    end
 
     # `each` enumerates occupied hexes
     def each
@@ -85,11 +89,39 @@ module Hivegame
 
     private
 
+    def col_count
+      max_col - min_col
+    end
+
+    def col_numbers
+      @board.map{|k,v| k[1]}
+    end
+
     # `supported_point?` returns true if `point` is resting on
     # the table or if the hex below `point` is occupied.
     def supported_point? point
       r,c,h = point[0], point[1], point[2]
       h == 0 || hex([r,c,h-1]).occupied?
+    end
+
+    def min_row
+      row_numbers.min
+    end
+
+    def max_row
+      row_numbers.max
+    end
+
+    def min_col
+      col_numbers.min
+    end
+
+    def max_col
+      col_numbers.max
+    end
+
+    def row_numbers
+      @board.map{|k,v| k[0]}
     end
 
   end
