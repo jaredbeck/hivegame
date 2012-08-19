@@ -14,6 +14,13 @@ module Hivegame
   # A Hive board is a three-dimensional matrix of hexagonal cells,
   # which are identified by a 3-tuple of coordinates.
   class Board
+
+    # A board can enumerate *occupied* hexes
+    include Enumerable
+
+    # To conserve memory, the internal representation of a board
+    # is a hash mapping coordinates to hexes.  A three-dimensional
+    # array would be mostly empty, thus wasting memory.
     def initialize
       @board = {[0,0,0] => Hex.new}
     end
@@ -32,7 +39,7 @@ module Hivegame
       return true
     end
 
-   # This will print the board out to the console
+   # `draw` writes the board to stdout
    def draw
      @rows.times do |row|
        line = "%03d:" % row
@@ -47,9 +54,14 @@ module Hivegame
      end
    end
 
-   def empty?
-     true
-   end
+    # `each` enumerates occupied hexes
+    def each
+      occupied_hexes.each { |hex| yield hex }
+    end
+
+    def empty?
+      count == 0
+    end
 
     def hex point
       return ArgumentError unless point.is_a? Array
@@ -65,6 +77,10 @@ module Hivegame
       offsets.map do |r,c,h|
         [row+r, col+c, height+h]
       end
+    end
+
+    def occupied_hexes
+      return @board.select { |point, hex| hex.occupied? }
     end
   end
 end
