@@ -6,13 +6,6 @@ describe Hivegame::Board do
     it("is empty") { should be_empty }
   end
 
-  describe "#neighbors" do
-    it "returns eight for any point" do
-      r = rand(10000)
-      subject.neighbors([r,r,r]).should have(8).neighbors
-    end
-  end
-
   describe "#add" do
     let(:bug) { double("Bug") }
     it "adds a piece to the given position" do
@@ -31,6 +24,13 @@ describe Hivegame::Board do
     end
     it "increases the count" do
       expect { subject.add([5,5,1], bug) }.to change { subject.count }.by(+1)
+    end
+  end
+
+  describe "#neighbors" do
+    it "returns eight for any point" do
+      r = rand(10000)
+      subject.neighbors([r,r,r]).should have(8).neighbors
     end
   end
 
