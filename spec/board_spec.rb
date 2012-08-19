@@ -4,6 +4,7 @@ describe Hivegame::Board do
 
   context "when initialized" do
     it("is empty") { should be_empty }
+    it("has a count of zero") { subject.count.should == 0 }
   end
 
   describe "#add" do
