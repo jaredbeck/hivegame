@@ -28,7 +28,6 @@ describe Hivegame::Board do
     it "fails to add to a z-level with no bug underneath" do
       subject.add([5,5,2], double("Bug")).should be_false
     end
-    it "can add to a z-level if a bug is underneath and the bug is a beetle"
     it "increases the count"
   end
 
