@@ -15,7 +15,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Hivegame::VERSION
 
-  gem.add_runtime_dependency "rgl"
+  # runtime dependencies, alphabetical
   gem.add_runtime_dependency "activesupport"
+  gem.add_runtime_dependency "rgl"
+
+  # development dependencies, alphabetical
+  gem.add_development_dependency "guard-rspec"
   gem.add_development_dependency "rspec"
 end
