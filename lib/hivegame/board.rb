@@ -18,17 +18,19 @@ module Hivegame
     # A board can enumerate *occupied* hexes
     include Enumerable
 
+    ORIGIN = [0,0,0]
+
     # To conserve memory, the internal representation of a board
     # is a hash mapping coordinates to hexes.  A three-dimensional
     # array would be mostly empty, thus wasting memory.
     def initialize
-      @board = {[0,0,0] => Hex.new}
+      @board = {ORIGIN => Hex.new}
     end
 
     def add(point, bug)
       return ArgumentError unless point.is_a? Array
       r,c,h = point[0], point[1], point[2]
-      if h > 1
+      if h > 0
         hex_below = hex([r,c,h-1])
         return false unless hex_below.occupied?
       end

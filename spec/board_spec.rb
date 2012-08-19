@@ -9,22 +9,23 @@ describe Hivegame::Board do
 
   describe "#add" do
     let(:bug) { double("Bug") }
+    let(:origin) { [0,0,0] }
     it "adds a piece to the given position" do
-      subject.add([5,5,1], bug).should be_true
+      subject.add(origin, bug).should be_true
     end
     it "can add a piece very far away from other pieces" do
-      subject.add([100, 100, 1], bug).should be_true
-      subject.add([-100, -100, 1], bug).should be_true
+      subject.add(origin, bug).should be_true
+      subject.add([-100, -100, 0], bug).should be_true
     end
     it "fails if the position is occupied" do
-      subject.add([5,5,1], bug).should be_true
-      subject.add([5,5,1], bug).should be_false
+      subject.add(origin, bug).should be_true
+      subject.add(origin, bug).should be_false
     end
     it "fails to add to a z-level with no bug underneath" do
-      subject.add([5,5,2], bug).should be_false
+      subject.add([0, 0, 1], bug).should be_false
     end
     it "increases the count" do
-      expect { subject.add([5,5,1], bug) }.to change { subject.count }.by(+1)
+      expect { subject.add(origin, bug) }.to change { subject.count }.by(+1)
     end
   end
 
