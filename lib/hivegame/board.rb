@@ -30,13 +30,9 @@ module Hivegame
     def add(point, bug)
       return ArgumentError unless point.is_a? Array
       r,c,h = point[0], point[1], point[2]
-      if h > 0
-        hex_below = hex([r,c,h-1])
-        return false unless hex_below.occupied?
-      end
+      return false unless supported_point?(point)
       hex = hex([r,c,h])
       return false if hex.occupied?
-
       @board[[r,c,h]].bug = bug
       return true
     end
@@ -86,5 +82,15 @@ module Hivegame
     def occupied_hexes
       return @board.select { |point, hex| hex.occupied? }
     end
+
+    private
+
+    # `supported_point?` returns true if `point` is resting on
+    # the table or if the hex below `point` is occupied.
+    def supported_point? point
+      r,c,h = point[0], point[1], point[2]
+      h == 0 || hex([r,c,h-1]).occupied?
+    end
+
   end
 end
