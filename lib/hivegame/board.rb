@@ -63,6 +63,8 @@ module Hivegame
       count == 0
     end
 
+    # `hex` returns the hex at the specified `point`,
+    # creating a hex if none exists.
     def hex point
       return ArgumentError unless point.is_a? Array
       @board[point] = Hex.new if @board[point].nil?
