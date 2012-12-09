@@ -13,9 +13,12 @@ describe Hivegame::Board do
     it "adds a piece to the given position" do
       subject.add(origin, bug).should be_true
     end
-    it "can add a piece very far away from other pieces" do
-      subject.add(origin, bug).should be_true
-      subject.add([-100, -100, 0], bug).should be_true
+    it 'can only add bugs connected to the hive' do
+      subject.add(origin, double("Bug One")).should be_true
+      subject.add([2,0,0], double("Bug Two")).should be_false
+      subject.should have(1).bug
+      subject.add([1,0,0], double("Bug Three")).should be_true
+      subject.should have(2).bugs
     end
     it "fails if the position is occupied" do
       subject.add(origin, bug).should be_true

@@ -6,16 +6,16 @@ module Hivegame
   class Hive
     include Enumerable
 
-    delegate :add_vertex, :to => :@bugs
+    delegate :add_edge, :add_vertex, :remove_vertex, :to => :@bugs
 
     def initialize
       @bugs = RGL::AdjacencyGraph.new
     end
 
     def connected?
-      connected_bugs = []
-      @bugs.each_connected_component {|c| connected_bugs << c }
-      connected_bugs == count
+      subgraphs = []
+      @bugs.each_connected_component {|c| subgraphs << c }
+      subgraphs.length == 1
     end
 
     def each

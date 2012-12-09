@@ -25,15 +25,36 @@ module Hivegame
     # array would be mostly empty, thus wasting memory.
     def initialize
       @board = {ORIGIN => Hex.new}
+      @hive = Hive.new
     end
 
     def add(point, bug)
       return ArgumentError unless point.is_a? Array
       r,c,h = point[0], point[1], point[2]
+      p = [r,c,h]
       return false unless supported_point?(point)
-      hex = hex([r,c,h])
+      hex = hex(p)
       return false if hex.occupied?
-      @board[[r,c,h]].bug = bug
+
+      # try adding to the hive-graph
+      @hive.add_vertex(bug)
+
+      # unless this is the first bug,
+      # for each adjacent hex, add an edge
+      unless empty?
+        neighbors(p).each do |n|
+          neigh = hex(n)
+          if neigh.occupied?
+            @hive.add_edge(neigh.bug, bug)
+          end
+        end
+        unless @hive.connected?
+          @hive.remove_vertex(bug)
+          return false
+        end
+      end
+
+      @board[p].bug = bug
       return true
     end
 
