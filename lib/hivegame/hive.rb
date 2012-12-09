@@ -12,10 +12,12 @@ module Hivegame
       @bugs = RGL::AdjacencyGraph.new
     end
 
+    # A `hive` is `connected?` if it has exactly one
+    # [connected component](http://bit.ly/9DWKlC)
     def connected?
-      subgraphs = []
-      @bugs.each_connected_component {|c| subgraphs << c }
-      subgraphs.length == 1
+      subgraphs = 0
+      @bugs.each_connected_component {|c| subgraphs += 1 }
+      subgraphs == 1
     end
 
     def each
