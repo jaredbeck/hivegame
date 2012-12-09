@@ -20,9 +20,11 @@ module Hivegame
 
     ORIGIN = [0,0,0]
 
-    # To conserve memory, the internal representation of a board
-    # is a hash mapping coordinates to hexes.  A three-dimensional
-    # array would be mostly empty, thus wasting memory.
+    # To conserve memory, the internal representation of the
+    # `@board` is a hash mapping coordinates to hexes.  An
+    # array would be mostly empty, wasting memory.  We also
+    # maintain an undirected graph, '@hive', because graphs excel
+    # at answering certain questions.
     def initialize
       @board = {ORIGIN => Hex.new}
       @hive = Hive.new
@@ -35,18 +37,17 @@ module Hivegame
       return false unless supported_point?(point)
       hex = hex(p)
       return false if hex.occupied?
+      return false unless add_to_hive_if_connected(point, bug)
+      @board[p].bug = bug
+      return true
+    end
 
-      # try adding to the hive-graph
+    def add_to_hive_if_connected point, bug
       @hive.add_vertex(bug)
 
-      # unless this is the first bug,
-      # for each adjacent hex, add an edge
       unless empty?
-        neighbors(p).each do |n|
-          neigh = hex(n)
-          if neigh.occupied?
-            @hive.add_edge(neigh.bug, bug)
-          end
+        occupied_neighbor_hexes(point).each do |n|
+          @hive.add_edge(n.bug, bug)
         end
         unless @hive.connected?
           @hive.remove_vertex(bug)
@@ -54,11 +55,10 @@ module Hivegame
         end
       end
 
-      @board[p].bug = bug
       return true
     end
 
-    # `to_ascii` returns a textual representation (aka. ascii art)
+    # `to_ascii` returns a textual representation of the board
     def to_ascii
       lines = []
       cols = col_count
@@ -106,6 +106,10 @@ module Hivegame
 
     def occupied_hexes
       return @board.select { |point, hex| hex.occupied? }
+    end
+
+    def occupied_neighbor_hexes point
+      neighbors(point).map{|n| hex(n)}.select{|n| n.occupied?}
     end
 
     private
