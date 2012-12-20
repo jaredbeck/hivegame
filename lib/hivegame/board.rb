@@ -32,13 +32,10 @@ module Hivegame
 
     def add(point, bug)
       return ArgumentError unless point.is_a? Array
-      r,c,h = point[0], point[1], point[2]
-      p = [r,c,h]
       return false unless supported_point?(point)
-      hex = hex(p)
-      return false if hex.occupied?
+      return false if hex(point).occupied?
       return false unless add_to_hive_if_connected(point, bug)
-      @board[p].bug = bug
+      @board[point].bug = bug
       return true
     end
 
