@@ -1,3 +1,5 @@
+require_relative 'three_dimensional'
+
 module Hivegame
 
   class Hex
@@ -14,6 +16,7 @@ module Hivegame
   # A Hive board is a three-dimensional matrix of hexagonal cells,
   # which are identified by a 3-tuple of coordinates.
   class Board
+    include ThreeDimensional
 
     # A board can enumerate *occupied* hexes
     include Enumerable
@@ -31,7 +34,7 @@ module Hivegame
     end
 
     def add(point, bug)
-      raise ArgumentError unless point.is_a? Array
+      validate_point(point)
       return false unless supported_point?(point)
       return false if hex(point).occupied?
       return false unless add_to_hive_if_connected(point, bug)
@@ -86,13 +89,13 @@ module Hivegame
     # `hex` returns the hex at the specified `point`,
     # creating a hex if none exists.
     def hex point
-      raise ArgumentError unless point.is_a? Array
+      validate_point(point)
       @board[point] = Hex.new if @board[point].nil?
       @board[point]
     end
 
     def neighbors point
-      raise ArgumentError unless point.is_a? Array
+      validate_point(point)
       row, col, height = point[0], point[1], point[2]
       offsets = [[-1,-1,0], [-1,0,0], [0,-1,0], [0,1,0], [1,0,0], \
         [1,1,0], [0,0,1], [0,0,-1]]

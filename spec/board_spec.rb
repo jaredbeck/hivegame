@@ -14,7 +14,7 @@ describe Hivegame::Board do
       subject.add(origin, bug).should be_true
     end
     it 'raises error if point is invalid' do
-      expect { subject.add('derp', bug) }.to raise_error ArgumentError
+      expect { subject.add([0,0,0.1], bug) }.to raise_error ArgumentError
     end
     it 'can only add bugs connected to the hive' do
       subject.add(origin, double("Bug One")).should be_true
