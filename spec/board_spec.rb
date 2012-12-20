@@ -13,6 +13,9 @@ describe Hivegame::Board do
     it "adds a piece to the given position" do
       subject.add(origin, bug).should be_true
     end
+    it 'raises error if point is invalid' do
+      expect { subject.add('derp', bug) }.to raise_error ArgumentError
+    end
     it 'can only add bugs connected to the hive' do
       subject.add(origin, double("Bug One")).should be_true
       subject.add([2,0,0], double("Bug Two")).should be_false

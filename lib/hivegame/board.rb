@@ -31,7 +31,7 @@ module Hivegame
     end
 
     def add(point, bug)
-      return ArgumentError unless point.is_a? Array
+      raise ArgumentError unless point.is_a? Array
       return false unless supported_point?(point)
       return false if hex(point).occupied?
       return false unless add_to_hive_if_connected(point, bug)
@@ -86,13 +86,13 @@ module Hivegame
     # `hex` returns the hex at the specified `point`,
     # creating a hex if none exists.
     def hex point
-      return ArgumentError unless point.is_a? Array
+      raise ArgumentError unless point.is_a? Array
       @board[point] = Hex.new if @board[point].nil?
       @board[point]
     end
 
     def neighbors point
-      return ArgumentError unless point.is_a? Array
+      raise ArgumentError unless point.is_a? Array
       row, col, height = point[0], point[1], point[2]
       offsets = [[-1,-1,0], [-1,0,0], [0,-1,0], [0,1,0], [1,0,0], \
         [1,1,0], [0,0,1], [0,0,-1]]
