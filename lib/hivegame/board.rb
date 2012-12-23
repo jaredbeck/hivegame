@@ -119,7 +119,7 @@ module Hivegame
     end
 
     def col_numbers
-      @board.map{|k,v| k[1]}
+      @board.map{|point, bug| point[1]}
     end
 
     # `supported_point?` returns true if `point` is resting on
@@ -146,7 +146,7 @@ module Hivegame
     end
 
     def row_numbers
-      @board.map{|k,v| k[0]}
+      @board.map{|point, bug| point[0]}
     end
 
   end
