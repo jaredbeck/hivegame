@@ -67,8 +67,8 @@ module Hivegame
         (cols - row).times {line << ' '}
 
         min_col.upto(max_col) do |col|
-          line << (hex([row,col,0]).bug || '.').to_s
           line << ' '
+          line << (hex([row,col,0]).bug || '.').to_s
         end
 
         lines << line

@@ -36,6 +36,20 @@ describe Hivegame::Board do
   end
 
   describe "#to_ascii" do
+    it "shows the correct board after a few moves" do
+      subject.add [0,0,0], 'B'
+      subject.add [0,1,0], 'b'
+      subject.add [0,-1,0], 'A'
+      subject.add [1,2,0], 'a'
+      expected = <<-eod
+-01:       . . . . . .
+000:      . A B b . .
+001:     . . . . a .
+002:    . . . . . .
+      eod
+      subject.to_ascii.should == expected.strip
+    end
+
     context "empty board" do
       it "should output only spaces and dots" do
         board = remove_line_nums(subject.to_ascii)
