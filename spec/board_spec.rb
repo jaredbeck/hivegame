@@ -64,10 +64,13 @@ describe Hivegame::Board do
     end
 
     context "empty board" do
-      it "should output only spaces and dots" do
-        board = remove_line_nums(subject.to_ascii)
-        distincts = Set.new(board.split('')).to_a
-        distincts.should =~ " .".split('')
+      it "shows the origin and neighbors" do
+        expected = <<-eod
+-01:    . . .
+000:   . . .
+001:  . . .
+        eod
+        subject.to_ascii.should == expected.strip
       end
     end
 
@@ -84,10 +87,10 @@ describe Hivegame::Board do
     end
   end
 
-  describe "#neighbors" do
+  describe "#neighbor_points" do
     it "returns eight for any point" do
       r = rand(10000)
-      subject.neighbors([r,r,r]).should have(8).neighbors
+      subject.neighbor_points([r,r,r]).should have(8).neighbors
     end
   end
 
