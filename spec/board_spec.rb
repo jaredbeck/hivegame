@@ -33,6 +33,19 @@ describe Hivegame::Board do
     it "increases the count" do
       expect { subject.add(origin, bug) }.to change { subject.count }.by(+1)
     end
+    context 'on top of another bug' do
+      before do
+        subject.add([0,0,0], bug)
+      end
+      it "adds a climber" do
+        bug.stub(:climber?) { true }
+        subject.add([0,0,1], bug).should be_true
+      end
+      it "fails to add a non-climber" do
+        bug.stub(:climber?) { false }
+        subject.add([0,0,1], bug).should be_false
+      end
+    end
   end
 
   describe "#to_ascii" do

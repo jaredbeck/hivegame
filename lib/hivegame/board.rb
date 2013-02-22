@@ -36,6 +36,7 @@ module Hivegame
     def add(point, bug)
       validate_point(point)
       return false unless supported_point?(point)
+      return false if requires_climbing?(point) && !bug.climber?
       return false if hex(point).occupied?
       return false unless add_to_hive_if_connected(point, bug)
       @board[point].bug = bug
@@ -120,6 +121,10 @@ module Hivegame
 
     def col_numbers
       @board.map{|point, bug| point[1]}
+    end
+
+    def requires_climbing? point
+      point[2] > 0
     end
 
     # `supported_point?` returns true if `point` is resting on

@@ -1,8 +1,11 @@
 module Hivegame
   class Bug
     attr_accessor :move_limit
+
     def color
     end
+
+    def climber?() false end
   end
 
   class Ant < Bug
@@ -21,6 +24,7 @@ module Hivegame
     def initialize
       @move_limit = 1
     end
+    def climber?() true end
   end
 
   class Grasshopper < Bug
