@@ -65,6 +65,8 @@ module Hivegame
       count == 0
     end
 
+    # On a three-dimensional hex grid, each hex has eight
+    # neighbors, including the hexes above and below.
     def neighbor_points point
       validate_point(point)
       row, col, height = point[0], point[1], point[2]
