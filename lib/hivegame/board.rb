@@ -33,29 +33,18 @@ module Hivegame
       @hive = Hive.new
     end
 
+    # `add` a bug to the board, with no concern over whose turn
+    # it is, or whether it is placed next to an opponent's bug.
+    # The `Board` is, however, responsible for certain fundamentals
+    # like the One Hive Rule.
     def add(point, bug)
       validate_point(point)
       return false unless supported_point?(point)
       return false if requires_climbing?(point) && !bug.climber?
       return false if hex(point).occupied?
-      return false unless add_to_hive_if_connected(point, bug)
+      return false if !empty? && occupied_neighbor_hexes(point).empty?
+      add_to_hive(point, bug)
       @board[point].bug = bug
-      return true
-    end
-
-    def add_to_hive_if_connected point, bug
-      @hive.add_vertex(bug)
-
-      unless empty?
-        occupied_neighbor_hexes(point).each do |n|
-          @hive.add_edge(n.bug, bug)
-        end
-        unless @hive.connected?
-          @hive.remove_vertex(bug)
-          return false
-        end
-      end
-
       return true
     end
 
@@ -114,6 +103,19 @@ module Hivegame
     end
 
     private
+
+    def add_to_hive point, bug
+      @hive.add_vertex(bug)
+
+      unless empty?
+        occupied_neighbor_hexes(point).each do |n|
+          @hive.add_edge(n.bug, bug)
+        end
+        fail unless @hive.connected?
+      end
+
+      return true
+    end
 
     def col_count
       max_col - min_col
