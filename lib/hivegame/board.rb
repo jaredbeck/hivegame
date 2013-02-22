@@ -28,10 +28,7 @@ module Hivegame
     # like the One Hive Rule.
     def add(point, bug)
       validate_point(point)
-      return false unless supported_point?(point)
-      return false if requires_climbing?(point) && !bug.climber?
-      return false if occupied?(point)
-      return false if !empty? && neighbor_bugs(point).empty?
+      return false unless legal_addition?(point, bug)
       add_to_hive(point, bug)
       @board[point] = bug
       return true
@@ -63,6 +60,13 @@ module Hivegame
 
     def empty?
       count == 0
+    end
+
+    def legal_addition? point, bug
+      !occupied?(point) &&
+        supported_point?(point) &&
+        (!requires_climbing?(point) || bug.climber?) &&
+        (empty? || !neighbor_bugs(point).empty?)
     end
 
     # On a three-dimensional hex grid, each hex has eight

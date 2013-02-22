@@ -75,8 +75,7 @@ describe Hivegame::Board do
     end
 
     it "shows bugs instead of a dot" do
-      bug = 'X'
-      subject.add([42,42,0], bug)
+      subject.add([42,42,0], 'X')
       board = remove_line_nums(subject.to_ascii)
       distincts = Set.new(board.split('')).to_a
       distincts.should =~ "X .\n".split('')
